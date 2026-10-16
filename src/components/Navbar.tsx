@@ -57,7 +57,9 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             
             <a
-              href="/index.html"
+              href="https://steambazari.az"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold text-gray-300 hover:text-white hover:bg-[#161624] transition-all border border-transparent hover:border-emerald-500/30"
             >
               <Gamepad2 className="w-4 h-4 text-emerald-400" />
@@ -65,9 +67,9 @@ export function Navbar() {
             </a>
 
             <Link
-              href="/guard"
+              href="/"
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                pathname === '/guard' || pathname === '/'
+                pathname === '/'
                   ? 'bg-red-600/20 text-red-400 border border-red-500/40'
                   : 'text-gray-300 hover:text-white hover:bg-[#161624]'
               }`}
