@@ -1,0 +1,78 @@
+// SteamBazari Guard & Verification Portal Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String         // Ad və Soyad (Müştərinin adı)
+  email         String?        @unique
+  passwordHash  String
+  plainPassword String?        // Admin panelində görünməsi üçün
+  role          String         @default("CUSTOMER") // "CUSTOMER" | "ADMIN"
+  phone         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  requests      GuardRequest[]
+
+  @@index([name])
+  @@index([email])
+  @@index([role])
+}
+
+model GuardRequest {
+  id           String    @id @default(uuid())
+  userId       String
+  game         String    // "GTA5" | "RDR2"
+  targetEmail  String    // "isayevelcan5@gmail.com" | "steambazari.rdr2@gmail.com"
+  code         String?
+  subject      String?
+  sender       String?
+  status       String    @default("SUCCESS") // "SUCCESS" | "FAILED" | "PENDING"
+  errorMessage String?
+  ipAddress    String?
+  createdAt    DateTime  @default(now())
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([game])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model GmailConfig {
+  id                String    @id @default(uuid())
+  game              String    @unique // "GTA5" | "RDR2"
+  gameName          String    // "Grand Theft Auto V" | "Red Dead Redemption 2"
+  email             String
+  encryptedPassword String?   // App Password or regular password encrypted
+  authType          String    @default("APP_PASSWORD") // "APP_PASSWORD" | "OAUTH2"
+  status            String    @default("NEEDS_CONFIG") // "CONNECTED" | "NEEDS_CONFIG" | "ERROR"
+  lastCheckedAt     DateTime?
+  lastCodeFound     String?
+  lastSubjectFound  String?
+  lastError         String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String   // "CODE_REQUEST", "CONFIG_UPDATE", "LOGIN", "REGISTER"
+  userId     String?
+  userEmail  String?
+  game       String?
+  ipAddress  String?
+  details    String   @default("{}")
+  createdAt  DateTime @default(now())
+
+  @@index([action])
+  @@index([createdAt])
+}

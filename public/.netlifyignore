@@ -1,0 +1,20 @@
+# Netlify Ignore - Skip unnecessary files during deploy
+
+# Git
+.git/
+
+# Backup & Debug
+*.bak
+*.backup
+*.tmp
+debug.txt
+csda
+style.css.bak
+
+# Server scripts (not needed on static Netlify CDN)
+*.php
+test-api.php
+
+# Environment
+.env*
+node_modules/

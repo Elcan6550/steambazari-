@@ -1,0 +1,566 @@
+/* SteamBazari Guard & 2FA Təsdiq Portalı İnteqrasiya Stilləri */
+
+.btn-guard-launcher {
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.35) 100%);
+    border: 1.5px solid rgba(16, 185, 129, 0.6);
+    color: #6ee7b7;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+}
+
+.btn-guard-launcher:hover {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.6) 100%);
+    border-color: #34d399;
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), 0 0 10px rgba(52, 211, 153, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-guard-launcher i {
+    font-size: 15px;
+    color: #34d399;
+    transition: transform 0.3s ease;
+}
+
+.btn-guard-launcher:hover i {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Guard Modal Xüsusi Stilləri */
+.guard-modal-content {
+    width: min(540px, 95%) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    background: radial-gradient(circle at 50% 0%, rgba(16, 32, 54, 0.98), rgba(9, 14, 24, 0.99)) !important;
+    border: 1.5px solid rgba(16, 185, 129, 0.35) !important;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), 0 0 45px rgba(16, 185, 129, 0.18) !important;
+    border-radius: 24px !important;
+    padding: 30px 26px !important;
+}
+
+.guard-header-wrap {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.guard-shield-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.1));
+    border: 2px solid rgba(16, 185, 129, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
+}
+
+.guard-shield-badge i {
+    font-size: 28px;
+    color: #10b981;
+    text-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+}
+
+.guard-header-wrap h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    background: linear-gradient(135deg, #ffffff, #6ee7b7, #10b981);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+.guard-subtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 10px;
+}
+
+.guard-external-portal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    border-radius: 20px;
+    font-size: 11.5px;
+    color: #00d2ff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.guard-external-portal-btn:hover {
+    background: rgba(0, 210, 255, 0.18);
+    border-color: #00d2ff;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+}
+
+/* Guard Auth Bölməsi */
+.guard-auth-tabs {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.guard-tab-btn {
+    flex: 1;
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.guard-tab-btn.active {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(5, 150, 105, 0.45));
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.guard-primary-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border-color: #34d399 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4) !important;
+    font-weight: 700 !important;
+    padding: 12px !important;
+}
+
+.guard-primary-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    box-shadow: 0 6px 28px rgba(16, 185, 129, 0.6) !important;
+    transform: translateY(-1px);
+}
+
+/* Guard İstifadəçi Zolağı */
+.guard-user-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.guard-user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #e2e8f0;
+}
+
+.guard-user-info i {
+    color: #10b981;
+    font-size: 18px;
+}
+
+.guard-user-info b {
+    color: #6ee7b7;
+    font-weight: 700;
+}
+
+.guard-logout-pill {
+    padding: 5px 12px;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.guard-logout-pill:hover {
+    background: rgba(239, 68, 68, 0.3);
+    color: #ffffff;
+    border-color: #ef4444;
+}
+
+/* Oyun Seçim Kartları */
+.guard-section-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.guard-game-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.guard-game-card {
+    position: relative;
+    padding: 14px 12px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+
+.guard-game-card:hover {
+    border-color: rgba(0, 210, 255, 0.4);
+    background: rgba(15, 23, 42, 0.95);
+    transform: translateY(-2px);
+}
+
+.guard-game-card.active {
+    border-color: #10b981;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.08));
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.25), inset 0 0 15px rgba(16, 185, 129, 0.08);
+}
+
+.guard-card-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #10b981;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.guard-game-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    margin: 4px auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.gta-icon {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(202, 138, 4, 0.1));
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    color: #facc15;
+}
+
+.rdr-icon {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.1));
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #f87171;
+}
+
+.guard-game-meta h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.guard-game-meta p {
+    margin: 0 0 6px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.guard-acc-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 6px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: monospace;
+}
+
+/* Kodu Al Əsas Düyməsi */
+.guard-action-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.guard-fetch-big-btn {
+    width: 100%;
+    padding: 15px 24px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    border: 1.5px solid #34d399;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.guard-fetch-big-btn:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+}
+
+.guard-fetch-big-btn:active {
+    transform: translateY(1px);
+}
+
+.guard-hint {
+    margin: 8px 0 0;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Canlı Kod Nəticə Bloku */
+.guard-result-box {
+    background: rgba(10, 20, 36, 0.9);
+    border: 1.5px solid rgba(16, 185, 129, 0.5);
+    border-radius: 16px;
+    padding: 20px 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(16, 185, 129, 0.15);
+    animation: guardPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes guardPopIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.guard-result-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 12px;
+}
+
+.guard-live-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+    animation: guardPulse 1.5s infinite;
+}
+
+@keyframes guardPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+.guard-result-title {
+    font-weight: 700;
+    color: #6ee7b7;
+    flex: 1;
+}
+
+.guard-time-ago {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+
+.guard-digits-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1.5px solid rgba(16, 185, 129, 0.4);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 14px;
+}
+
+.guard-digits-display {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(52, 211, 153, 0.8), 0 0 30px rgba(16, 185, 129, 0.4);
+}
+
+.guard-copy-action-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    color: #6ee7b7;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.guard-copy-action-btn:hover {
+    background: #10b981;
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(16, 185, 129, 0.6);
+}
+
+.guard-copy-action-btn.copied {
+    background: #059669;
+    color: #ffffff;
+    border-color: #34d399;
+}
+
+.guard-timer-wrap {
+    margin-bottom: 14px;
+}
+
+.guard-timer-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.guard-timer-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #00d2ff);
+    transition: width 1s linear;
+}
+
+.guard-timer-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+    text-align: right;
+}
+
+.guard-code-details {
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.65);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.guard-code-details i {
+    color: #00d2ff;
+    width: 16px;
+}
+
+/* Yüklənmə və Xəta Vəziyyətləri */
+.guard-loading-state {
+    text-align: center;
+    padding: 24px 16px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+}
+
+.guard-spinner {
+    width: 38px;
+    height: 38px;
+    border: 3px solid rgba(16, 185, 129, 0.2);
+    border-top-color: #10b981;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    animation: guardSpin 0.8s linear infinite;
+}
+
+@keyframes guardSpin {
+    to { transform: rotate(360deg); }
+}
+
+.guard-fetch-error {
+    padding: 12px 14px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 10px;
+    color: #fca5a5;
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.guard-footer-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.guard-admin-link-pill {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.guard-admin-link-pill:hover {
+    color: #00d2ff;
+    background: rgba(0, 210, 255, 0.1);
+}
+
+@media (max-width: 640px) {
+    .btn-guard-launcher {
+        padding: 7px 12px;
+        font-size: 11.5px;
+    }
+    .guard-game-cards {
+        grid-template-columns: 1fr;
+    }
+    .guard-digits-display {
+        font-size: 26px;
+        letter-spacing: 4px;
+    }
+}

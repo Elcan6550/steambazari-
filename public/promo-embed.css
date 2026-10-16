@@ -1,0 +1,143 @@
+﻿/* ==========================================================================
+   STEAMBAZARI — PROMO LAUNCHER & MODAL EMBED SYSTEM
+   Mövcud dizaynı pozmadan təmiz inteqrasiya
+   ========================================================================== */
+
+/* Header Promo Düyməsi */
+.btn-promo-launcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+    border: 1px solid rgba(0, 210, 255, 0.45);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.25);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-promo-launcher i {
+    color: #00d2ff;
+    font-size: 1rem;
+    filter: drop-shadow(0 0 8px #00d2ff);
+    animation: promoIconPulse 2s infinite ease-in-out;
+}
+
+@keyframes promoIconPulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px #00d2ff); }
+    50% { transform: scale(1.15); filter: drop-shadow(0 0 12px #00d2ff); }
+}
+
+.btn-promo-launcher:hover {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.3) 0%, rgba(168, 85, 247, 0.35) 100%);
+    border-color: #00d2ff;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.5), 0 0 15px rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.btn-promo-launcher::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-20deg);
+    animation: promoShine 4s infinite;
+}
+
+@keyframes promoShine {
+    0%, 75% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* Cinematic Promo Modal Overlay */
+.promo-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 4, 10, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.promo-modal-overlay.open {
+    display: flex;
+    opacity: 1;
+}
+
+.promo-modal-container {
+    position: relative;
+    width: 96vw;
+    height: 94vh;
+    max-width: 1500px;
+    background: #03060f;
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 210, 255, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.promo-modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    z-index: 9999;
+    background: rgba(14, 22, 38, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s;
+}
+
+.promo-modal-close-btn:hover {
+    background: rgba(239, 68, 68, 0.8);
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.promo-modal-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #03060f;
+}
+
+@media (max-width: 768px) {
+    .btn-promo-launcher span {
+        display: none;
+    }
+    .btn-promo-launcher {
+        padding: 8px 12px;
+    }
+    .promo-modal-container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+}

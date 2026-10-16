@@ -1,0 +1,590 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #0d1117;
+    color: #e1e1e1;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -100;
+    pointer-events: none;
+    overflow: hidden;
+    background-image: url('background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.video-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(6, 191, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.8));
+    pointer-events: none;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.015) 2px,
+        rgba(255, 255, 255, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.giva-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.giva-header {
+    text-align: center;
+}
+
+.giva-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.giva-logo i {
+    font-size: 48px;
+    color: #ff6b35;
+    filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.4));
+    animation: givaPulse 2s ease-in-out infinite;
+}
+
+@keyframes givaPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.giva-logo span {
+    font-size: 42px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff6b35, #ffd700, #ff6b35);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: givaGradient 3s ease infinite;
+}
+
+@keyframes givaGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.giva-subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.giva-countdown-wrapper {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px 40px;
+    text-align: center;
+}
+
+.giva-countdown-label {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.giva-countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.giva-cd-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+}
+
+.giva-cd-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+    font-variant-numeric: tabular-nums;
+}
+
+.giva-cd-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.giva-cd-sep {
+    font-size: 36px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.15);
+    margin-bottom: 18px;
+}
+
+.giva-join-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ff6b35, #e85d26);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 30px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.giva-join-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    transition: transform 0.5s;
+    transform: scale(0);
+}
+
+.giva-join-btn:hover::before {
+    transform: scale(1);
+}
+
+.giva-join-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 40px rgba(255, 107, 53, 0.5);
+}
+
+.giva-join-btn:active {
+    transform: translateY(0);
+}
+
+.giva-join-btn.joined {
+    background: linear-gradient(135deg, #2ea043, #238636);
+    box-shadow: 0 4px 30px rgba(46, 160, 67, 0.3);
+    pointer-events: none;
+}
+
+.giva-join-btn.joined i {
+    animation: givaCheckBounce 0.5s ease;
+}
+
+@keyframes givaCheckBounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.giva-join-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.giva-slot-wrapper {
+    width: 100%;
+    max-width: 900px;
+}
+
+.giva-slot-container {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 4px;
+    position: relative;
+    box-shadow:
+        0 0 40px rgba(255, 107, 53, 0.1),
+        inset 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+.giva-slot-window {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.6);
+    height: 100px;
+}
+
+.giva-slot-track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+    transition: none;
+    will-change: transform;
+}
+
+.giva-slot-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    height: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.giva-slot-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.giva-slot-item:first-child::before {
+    display: none;
+}
+
+.giva-slot-item .giva-item-icon {
+    margin-right: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.giva-slot-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.giva-pointer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.giva-pointer i {
+    font-size: 40px;
+    color: #ffd700;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+    display: block;
+    margin-top: -8px;
+}
+
+.giva-pointer::after {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 60px;
+    background: linear-gradient(to bottom, #ffd700, transparent);
+    opacity: 0.3;
+}
+
+.giva-controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.giva-spin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 30px rgba(245, 158, 11, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.giva-spin-btn:not(:disabled):hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 50px rgba(245, 158, 11, 0.5);
+}
+
+.giva-spin-btn:not(:disabled):active {
+    transform: translateY(0) scale(0.98);
+}
+
+.giva-spin-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(1);
+}
+
+.giva-spin-btn.spinning {
+    pointer-events: none;
+    animation: givaBtnPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes givaBtnPulse {
+    0%, 100% { box-shadow: 0 4px 30px rgba(245, 158, 11, 0.3); }
+    50% { box-shadow: 0 4px 60px rgba(245, 158, 11, 0.7); }
+}
+
+.giva-reset-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.giva-reset-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.giva-participants-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+
+.giva-participants-info i {
+    color: #ff6b35;
+}
+
+.giva-participants-info strong {
+    color: #fff;
+    font-size: 18px;
+}
+
+.giva-winner-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: givaWinnerFadeIn 0.5s ease;
+}
+
+@keyframes givaWinnerFadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.giva-winner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+.giva-winner-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: givaWinnerBounce 0.6s ease;
+}
+
+@keyframes givaWinnerBounce {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.giva-winner-icon {
+    font-size: 80px;
+    color: #ffd700;
+    filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.5));
+    margin-bottom: 20px;
+    animation: givaTrophyShine 2s ease-in-out infinite;
+}
+
+@keyframes givaTrophyShine {
+    0%, 100% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 80px rgba(255, 215, 0, 0.8)); }
+}
+
+.giva-winner-content h2 {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd700, #ff6b35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    letter-spacing: 8px;
+}
+
+.giva-winner-name {
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+}
+
+.giva-winner-confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+@keyframes givaConfettiFall {
+    0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.giva-confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    animation: givaConfettiFall linear forwards;
+}
+
+@media (max-width: 768px) {
+    .giva-container {
+        padding: 20px 16px;
+        gap: 20px;
+    }
+
+    .giva-logo i {
+        font-size: 32px;
+    }
+
+    .giva-logo span {
+        font-size: 28px;
+    }
+
+    .giva-countdown-wrapper {
+        padding: 16px 20px;
+    }
+
+    .giva-cd-value {
+        font-size: 24px;
+    }
+
+    .giva-cd-item {
+        min-width: 40px;
+    }
+
+    .giva-join-btn {
+        padding: 14px 32px;
+        font-size: 16px;
+    }
+
+    .giva-slot-window {
+        height: 70px;
+    }
+
+    .giva-slot-item {
+        font-size: 14px;
+        padding: 0 16px;
+    }
+
+    .giva-pointer i {
+        font-size: 28px;
+        margin-top: -4px;
+    }
+
+    .giva-pointer::after {
+        top: 22px;
+        height: 42px;
+    }
+
+    .giva-spin-btn {
+        padding: 14px 32px;
+        font-size: 16px;
+    }
+
+    .giva-winner-content h2 {
+        font-size: 32px;
+    }
+
+    .giva-winner-name {
+        font-size: 24px;
+    }
+}

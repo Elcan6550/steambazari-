@@ -1,0 +1,34 @@
+# Root large media files (1.1+ GB)
+*.mp3
+*.webm
+
+# Unreferenced root avif (already replaced by mortalshell2.avif in sekiller)
+7c69efe872a7d33efd6bf58123b14e4bccdb64ba49f6f142.avif
+
+# Config & secrets
+.env
+*.env.local
+*.env.*
+!.env.example
+
+# Firebase
+firebase.rules.json
+fb_users.json
+functions/
+
+# Backup / debug
+csda
+debug.txt
+*.backup
+style.css.backup
+
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Netlify
+.netlify
+*.tar.gz
