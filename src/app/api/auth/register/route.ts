@@ -145,10 +145,7 @@ export async function POST(req: NextRequest) {
     console.error('Register error details:', error);
     return NextResponse.json(
       {
-        error:
-          error?.message && !error.message.includes('invocation')
-            ? error.message
-            : 'Serverdə qeydiyyat zamanı xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.',
+        error: error?.message || 'Serverdə qeydiyyat zamanı xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.',
       },
       { status: 500 }
     );
