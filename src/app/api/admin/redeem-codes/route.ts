@@ -129,6 +129,19 @@ export async function GET(req: NextRequest) {
   }
 }
 
+function toAzeriUpper(val: string): string {
+  return (val || '')
+    .replace(/ə/g, 'Ə')
+    .replace(/i/g, 'İ')
+    .replace(/ı/g, 'I')
+    .replace(/ö/g, 'Ö')
+    .replace(/ü/g, 'Ü')
+    .replace(/ç/g, 'Ç')
+    .replace(/ş/g, 'Ş')
+    .replace(/ğ/g, 'Ğ')
+    .toUpperCase();
+}
+
 export async function POST(req: NextRequest) {
   try {
     const session = await getSessionFromRequest(req);
@@ -139,16 +152,17 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const game = (body.game || 'GTA5').toUpperCase() as 'GTA5' | 'RDR2';
     const customerName = (body.customerName || '').trim();
-    let initials = (body.initials || '').trim().toUpperCase();
+    let rawInitials = toAzeriUpper(body.initials || '').trim();
 
     if (!['GTA5', 'RDR2'].includes(game)) {
       return NextResponse.json({ error: 'Oyun GTA5 və ya RDR2 olmalıdır' }, { status: 400 });
     }
 
-    if (!initials) {
+    let initials = '';
+    if (!rawInitials) {
       initials = cleanInitials(customerName);
     } else {
-      initials = cleanExplicitInitials(initials) || cleanInitials(customerName);
+      initials = cleanExplicitInitials(rawInitials) || cleanInitials(customerName);
     }
 
     // Generate unique code format: EI-GTA5-7K9P or NQ-RDR2-4W8M

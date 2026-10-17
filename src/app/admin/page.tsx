@@ -82,8 +82,21 @@ export default function AdminDashboardPage() {
     'ъ':'','ы':'Y','ь':'','э':'E','ю':'YU','я':'YA'
   };
 
+  const toAzeriUpper = (val: string): string => {
+    return (val || '')
+      .replace(/ə/g, 'Ə')
+      .replace(/i/g, 'İ')
+      .replace(/ı/g, 'I')
+      .replace(/ö/g, 'Ö')
+      .replace(/ü/g, 'Ü')
+      .replace(/ç/g, 'Ç')
+      .replace(/ş/g, 'Ş')
+      .replace(/ğ/g, 'Ğ')
+      .toUpperCase();
+  };
+
   const calculateInitials = (name: string): string => {
-    if (!name.trim()) return '';
+    if (!name || !name.trim()) return '';
     let str = name.trim();
     for (const [cyr, lat] of Object.entries(CYRILLIC_MAP)) {
       if (str.includes(cyr)) {
@@ -91,24 +104,16 @@ export default function AdminDashboardPage() {
       }
     }
 
-    str = str
-      .replace(/[əƏ]/g, 'Ə')
-      .replace(/[ıI]/g, 'I')
-      .replace(/[iİ]/g, 'İ')
-      .replace(/[öÖ]/g, 'Ö')
-      .replace(/[üÜ]/g, 'Ü')
-      .replace(/[çÇ]/g, 'Ç')
-      .replace(/[şŞ]/g, 'Ş')
-      .replace(/[ğĞ]/g, 'Ğ');
+    str = toAzeriUpper(str);
 
-    const clean = str.replace(/[^A-Za-zƏİIÖÜÇŞĞ\s]/g, '').toUpperCase();
+    const clean = str.replace(/[^A-Za-zƏİIÖÜÇŞĞ\s]/g, '');
     const parts = clean.split(/\s+/).filter(Boolean);
     if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
+      return toAzeriUpper(parts[0][0] + parts[1][0]);
     } else if (parts.length === 1 && parts[0].length >= 2) {
-      return parts[0].slice(0, 2).toUpperCase();
+      return toAzeriUpper(parts[0].slice(0, 2));
     } else if (parts.length === 1) {
-      return (parts[0][0] + 'X').toUpperCase();
+      return toAzeriUpper(parts[0][0] + 'X');
     }
     return '';
   };
@@ -312,9 +317,15 @@ export default function AdminDashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f1f2e]">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/60 border border-red-700/40 text-red-400 text-xs font-bold uppercase tracking-wider mb-1">
-            <ShieldAlert className="w-4 h-4 text-red-500" />
-            <span>İnzibatçı Nəzarət Paneli</span>
+          <div className="flex flex-wrap items-center gap-2 mb-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/60 border border-red-700/40 text-red-400 text-xs font-bold uppercase tracking-wider">
+              <ShieldAlert className="w-4 h-4 text-red-500" />
+              <span>İnzibatçı Nəzarət Paneli</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 text-[11px] font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Ə, İ, Ö, Ü, Ç, Ş, Ğ və bütün Latın hərfləri aktivdir (v2.2)</span>
+            </div>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white">
             SteamBazari Guard & Redeem İdarəetməsi
@@ -490,7 +501,7 @@ export default function AdminDashboardPage() {
                     setGtaCustomerName(val);
                     setGtaInitials(calculateInitials(val));
                   }}
-                  placeholder="Məs: Elcan İsayev"
+                  placeholder="Məs: Əli İsayev"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs text-white focus:outline-none focus:border-red-500"
                 />
               </div>
@@ -504,12 +515,12 @@ export default function AdminDashboardPage() {
                     type="text"
                     maxLength={6}
                     value={gtaInitials}
-                    onChange={(e) => setGtaInitials(e.target.value.toUpperCase())}
-                    placeholder="EI"
+                    onChange={(e) => setGtaInitials(toAzeriUpper(e.target.value))}
+                    placeholder="Əİ"
                     className="w-28 px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs font-mono font-bold text-center text-red-400 focus:outline-none focus:border-red-500"
                   />
                   <span className="text-xs text-gray-500 font-mono">
-                    Nümunə: <strong className="text-gray-300">{gtaInitials || 'EI'}-GTA5-XXXX</strong>
+                    Nümunə: <strong className="text-gray-300">{gtaInitials || 'Əİ'}-GTA5-XXXX</strong>
                   </span>
                 </div>
               </div>
@@ -575,7 +586,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     maxLength={6}
                     value={rdrInitials}
-                    onChange={(e) => setRdrInitials(e.target.value.toUpperCase())}
+                    onChange={(e) => setRdrInitials(toAzeriUpper(e.target.value))}
                     placeholder="NQ"
                     className="w-28 px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs font-mono font-bold text-center text-amber-400 focus:outline-none focus:border-amber-500"
                   />
