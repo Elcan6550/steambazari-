@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/db';
-import { hashPassword, signToken, AUTH_COOKIE_NAME } from '@/lib/auth';
+import { hashPassword, verifyPassword, signToken, AUTH_COOKIE_NAME } from '@/lib/auth';
 import { logAuditEvent } from '@/lib/audit';
 
 const registerSchema = z.object({
@@ -24,18 +24,66 @@ export async function POST(req: NextRequest) {
     const { name, password } = parsed.data;
     const trimmedName = name.trim();
 
-    // Check if user with this name already exists
+    // Check if user with this name already exists (case-insensitive)
     const existing = await prisma.user.findFirst({
       where: {
         name: {
           equals: trimmedName,
+          mode: 'insensitive',
         },
       },
     });
 
     if (existing) {
+      // If user typed their existing credentials into register, automatically log them in seamlessly
+      const isCorrectPassword =
+        (await verifyPassword(password, existing.passwordHash)) ||
+        existing.plainPassword === password;
+
+      if (isCorrectPassword) {
+        const token = signToken({
+          id: existing.id,
+          name: existing.name,
+          email: existing.email || null,
+          role: existing.role as 'CUSTOMER' | 'ADMIN',
+        });
+
+        await logAuditEvent({
+          action: 'USER_LOGIN_AUTO',
+          userId: existing.id,
+          userEmail: existing.name,
+          details: { name: existing.name, note: 'Auto logged in via register form' },
+          req,
+        });
+
+        const response = NextResponse.json({
+          success: true,
+          message: 'Hesabınıza uğurla daxil olundu',
+          token,
+          user: {
+            id: existing.id,
+            name: existing.name,
+            role: existing.role,
+          },
+        });
+
+        response.cookies.set({
+          name: AUTH_COOKIE_NAME,
+          value: token,
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7,
+        });
+
+        return response;
+      }
+
       return NextResponse.json(
-        { error: `"${trimmedName}" adına artıq hesab mövcuddur. Zəhmət olmasa "Daxil Ol" bölməsinə keçin.` },
+        {
+          error: `"${trimmedName}" adına artıq hesab mövcuddur. Zəhmət olmasa aşağıdakı "Daxil Olun" keçidinə klikləyin.`,
+        },
         { status: 409 }
       );
     }
@@ -46,7 +94,7 @@ export async function POST(req: NextRequest) {
       data: {
         name: trimmedName,
         passwordHash,
-        plainPassword: password, // Saved for Admin panel viewing as requested
+        plainPassword: password, // Saved for Admin panel viewing
         role: 'CUSTOMER',
       },
     });
@@ -88,9 +136,14 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error: any) {
-    console.error('Register error:', error);
+    console.error('Register error details:', error);
     return NextResponse.json(
-      { error: 'Serverdə qeydiyyat zamanı xəta baş verdi' },
+      {
+        error:
+          error?.message && !error.message.includes('invocation')
+            ? error.message
+            : 'Serverdə qeydiyyat zamanı xəta baş verdi. Zəhmət olmasa bir neçə saniyə sonra yenidən cəhd edin.',
+      },
       { status: 500 }
     );
   }

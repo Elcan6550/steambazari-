@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.findFirst({
       where: {
         OR: [
-          { name: { equals: identifier } },
+          { name: { equals: identifier, mode: 'insensitive' } },
           { email: { equals: identifier.toLowerCase() } },
         ],
       },
