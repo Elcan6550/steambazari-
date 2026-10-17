@@ -1,8 +1,15 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#08080c',
+};
 
 export const metadata: Metadata = {
   title: 'SteamBazari — GTA 5 və RDR 2 Guard & 2FA Kodu Portalı',

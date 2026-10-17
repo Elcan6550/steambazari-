@@ -227,18 +227,18 @@ export default function HomePage() {
   const isCurrentGameUnlocked = isGameUnlocked(selectedGame);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+    <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-10">
       
       {/* Hero Title */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/40 border border-red-700/40 text-red-400 text-xs font-bold uppercase tracking-wider shadow-inner">
-          <Flame className="w-4 h-4 text-red-500" />
+      <div className="text-center space-y-2.5 sm:space-y-3">
+        <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-red-950/40 border border-red-700/40 text-red-400 text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-inner">
+          <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
           <span>SteamBazari Rəsmi Guard & 2FA Portalı</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
           Rockstar & Steam <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-amber-500">Guard Kodu Al</span>
         </h1>
-        <p className="text-sm text-gray-400 max-w-xl mx-auto">
+        <p className="text-xs sm:text-sm text-gray-400 max-w-xl mx-auto px-2">
           GTA 5 və RDR 2 hesablarınıza giriş zamanı tələb olunan təsdiq kodlarını bir toxunuşla birbaşa rəsmi Gmail poçtundan əldə edin.
         </p>
       </div>
@@ -297,7 +297,7 @@ export default function HomePage() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-5">
               {GAMES.map((game) => {
                 const unlocked = isGameUnlocked(game.id);
                 const isSelected = selectedGame === game.id && unlocked;
@@ -306,16 +306,16 @@ export default function HomePage() {
                   <div
                     key={game.id}
                     onClick={() => handleCardClick(game.id)}
-                    className={`relative rounded-3xl p-5 border cursor-pointer transition-all duration-300 overflow-hidden flex items-center gap-5 ${
+                    className={`relative rounded-2xl sm:rounded-3xl p-4 sm:p-5 border cursor-pointer transition-all duration-300 overflow-hidden flex items-center gap-3.5 sm:gap-5 active:scale-[0.98] ${
                       !unlocked
-                        ? 'bg-[#0d0d14]/70 border-[#222233] opacity-45 grayscale-[60%] hover:opacity-75 hover:grayscale-0 hover:border-red-500/40'
+                        ? 'bg-[#0d0d14]/70 border-[#222233] opacity-50 grayscale-[50%] hover:opacity-85 hover:grayscale-0 hover:border-red-500/40'
                         : isSelected
-                        ? 'bg-gradient-to-r from-red-950/40 via-[#191928] to-[#12121e] border-red-500 shadow-2xl shadow-red-950/40 scale-[1.02]'
+                        ? 'bg-gradient-to-r from-red-950/40 via-[#191928] to-[#12121e] border-red-500 shadow-2xl shadow-red-950/40 scale-[1.01] sm:scale-[1.02]'
                         : 'bg-[#111119] border-[#222234] hover:border-gray-600 opacity-90 hover:opacity-100'
                     }`}
                   >
                     {/* Thumbnail */}
-                    <div className="relative w-20 h-24 rounded-2xl overflow-hidden bg-black flex-shrink-0 border border-white/10 shadow-lg">
+                    <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-xl sm:rounded-2xl overflow-hidden bg-black flex-shrink-0 border border-white/10 shadow-lg">
                       <Image
                         src={game.coverImage}
                         alt={game.title}
@@ -324,42 +324,42 @@ export default function HomePage() {
                       />
                       {!unlocked && (
                         <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] flex items-center justify-center">
-                          <Lock className="w-6 h-6 text-red-400" />
+                          <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
                         </div>
                       )}
                     </div>
 
                     {/* Details */}
-                    <div className="space-y-1.5 flex-grow">
-                      <div className="flex items-center justify-between">
+                    <div className="space-y-1 sm:space-y-1.5 flex-grow min-w-0">
+                      <div className="flex items-center justify-between gap-1">
                         {unlocked ? (
-                          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                          <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             <span>AKTİV</span>
                           </span>
                         ) : (
-                          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                          <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
                             <Lock className="w-2.5 h-2.5" />
                             <span>KOD TƏLƏB OLUNUR</span>
                           </span>
                         )}
 
                         {isSelected && (
-                          <div className="w-3 h-3 rounded-full bg-emerald-400 pulse-glow" />
+                          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 pulse-glow flex-shrink-0" />
                         )}
                       </div>
 
-                      <h3 className="text-base font-extrabold text-white">
+                      <h3 className="text-sm sm:text-base font-extrabold text-white truncate">
                         {game.title}
                       </h3>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-[11px] sm:text-xs text-gray-400 line-clamp-1">
                         {game.subtitle}
                       </p>
 
-                      <div className="pt-1 flex items-center gap-1.5 text-[11px] font-mono text-gray-300 truncate">
+                      <div className="pt-0.5 sm:pt-1 flex items-center gap-1.5 text-[11px] font-mono text-gray-300 truncate">
                         {unlocked ? (
                           <>
-                            <Mail className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
+                            <Mail className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-500 flex-shrink-0" />
                             <span className="truncate">{game.email}</span>
                           </>
                         ) : (
@@ -377,7 +377,7 @@ export default function HomePage() {
           </div>
 
           {/* STEP 2: Code Retrieval Action Box */}
-          <div className="p-8 rounded-3xl bg-[#11111a] border border-[#242438] space-y-6 shadow-2xl relative overflow-hidden">
+          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#11111a] border border-[#242438] space-y-5 sm:space-y-6 shadow-2xl relative overflow-hidden">
             
             {/* Ambient Red Glow */}
             <div className="absolute top-0 right-1/4 w-72 h-72 bg-red-600/10 blur-[100px] pointer-events-none" />
@@ -387,7 +387,7 @@ export default function HomePage() {
                 <div className="text-xs font-bold text-red-500 uppercase tracking-wider">
                   Seçilmiş Oyun: {currentGame.title}
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-white">
+                <h2 className="text-lg sm:text-2xl font-black text-white">
                   Gmail Qutusundan Avtomatik Guard Kodu Al
                 </h2>
                 <div className="text-xs text-gray-400 flex items-center gap-1.5 mt-1 font-mono">
@@ -401,7 +401,7 @@ export default function HomePage() {
                 <button
                   onClick={handleGetCode}
                   disabled={fetchingCode}
-                  className="flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-extrabold text-sm uppercase tracking-wider shadow-xl shadow-red-950/60 hover:shadow-red-600/30 transition-all duration-300 disabled:opacity-50 flex-shrink-0"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-red-950/60 hover:shadow-red-600/30 transition-all duration-300 disabled:opacity-50 flex-shrink-0"
                 >
                   {fetchingCode ? (
                     <>
@@ -424,7 +424,7 @@ export default function HomePage() {
                     setRedeemSuccessMsg(null);
                     setRedeemModalOpen(true);
                   }}
-                  className="flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-red-950/50 transition-all duration-300 flex-shrink-0"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-red-950/50 transition-all duration-300 flex-shrink-0"
                 >
                   <Unlock className="w-4 h-4" />
                   <span>Redeem Kodu Daxil Et</span>
@@ -477,11 +477,11 @@ export default function HomePage() {
 
             {/* Display Found Code */}
             {latestCodeData && latestCodeData.code && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#161626] to-[#0e0e18] border border-red-600/40 space-y-6 shadow-2xl relative overflow-hidden animate-fade-in">
+              <div className="p-4 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#161626] to-[#0e0e18] border border-red-600/40 space-y-4 sm:space-y-6 shadow-2xl relative overflow-hidden animate-fade-in">
                 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#24243a]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-[#24243a]">
                   <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
-                    <CheckCircle2 className="w-4 h-4" />
+                    <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                     <span>Rəsmi Gmail Poçtundan Ən Son Guard Kodu Tapıldı!</span>
                   </div>
                   <div className="text-[11px] text-gray-400 font-mono">
@@ -490,19 +490,19 @@ export default function HomePage() {
                 </div>
 
                 {/* Big Code Box */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-[#09090f] border border-[#2b2b40]">
-                  <div className="text-center sm:text-left">
-                    <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-[#09090f] border border-[#2b2b40]">
+                  <div className="text-center sm:text-left w-full sm:w-auto">
+                    <div className="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
                       Təsdiq Kodu:
                     </div>
-                    <div className="text-3xl sm:text-4xl font-black font-mono tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-white to-amber-300 select-all">
+                    <div className="text-2xl sm:text-4xl font-black font-mono tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-white to-amber-300 select-all">
                       {latestCodeData.code}
                     </div>
                   </div>
 
                   <button
                     onClick={() => handleCopy(latestCodeData.code)}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-red-950"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-red-950 active:scale-95"
                   >
                     {copied ? (
                       <>
@@ -580,26 +580,26 @@ export default function HomePage() {
 
       {/* REDEEM CODE MODAL */}
       {redeemModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="w-full max-w-md p-6 sm:p-8 rounded-3xl bg-[#11111a] border border-[#2c2c40] space-y-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-fade-in overflow-y-auto">
+          <div className="w-full max-w-sm sm:max-w-md p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#11111a] border border-[#2c2c40] space-y-5 sm:space-y-6 shadow-2xl relative my-auto">
             
             {/* Close button */}
             <button
               onClick={() => setRedeemModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-xl bg-[#181826] hover:bg-[#232338] text-gray-400 hover:text-white transition-colors"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-xl bg-[#181826] hover:bg-[#232338] text-gray-400 hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
 
             {/* Modal Header */}
-            <div className="text-center space-y-2">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-red-600/20 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto shadow-lg">
-                <Gift className="w-7 h-7" />
+            <div className="text-center space-y-1.5 sm:space-y-2">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-red-600/20 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto shadow-lg">
+                <Gift className="w-6 h-6 sm:w-7 sm:h-7" />
               </div>
-              <h2 className="text-xl font-black text-white">
+              <h2 className="text-lg sm:text-xl font-black text-white">
                 {modalTargetGame === 'GTA5' ? 'Grand Theft Auto V' : 'Red Dead Redemption 2'}
               </h2>
-              <div className="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase tracking-wider">
+              <div className="inline-block text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase tracking-wider">
                 Aktivasiya (Redeem) Kodu
               </div>
               <p className="text-xs text-gray-400 max-w-xs mx-auto">
@@ -609,7 +609,7 @@ export default function HomePage() {
 
             {/* Error Message */}
             {redeemError && (
-              <div className="p-3.5 rounded-xl bg-red-950/40 border border-red-800/40 text-red-300 text-xs flex items-center gap-2">
+              <div className="p-3 sm:p-3.5 rounded-xl bg-red-950/40 border border-red-800/40 text-red-300 text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
                 <span>{redeemError}</span>
               </div>
@@ -617,7 +617,7 @@ export default function HomePage() {
 
             {/* Success Message */}
             {redeemSuccessMsg && (
-              <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-600/40 text-emerald-300 text-xs flex items-center gap-2">
+              <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-600/40 text-emerald-300 text-xs flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 <span>{redeemSuccessMsg}</span>
               </div>
@@ -637,8 +637,8 @@ export default function HomePage() {
                     autoFocus
                     value={redeemCodeInput}
                     onChange={(e) => setRedeemCodeInput(e.target.value.toUpperCase())}
-                    placeholder={modalTargetGame === 'GTA5' ? 'Məs: EI-GTA5-XXXX' : 'Məs: NQ-RDR2-XXXX'}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#171724] border border-[#2b2b40] text-sm font-mono tracking-wider text-white focus:outline-none focus:border-red-500"
+                    placeholder={modalTargetGame === 'GTA5' ? 'Məs: Əİ-GTA5-XXXX' : 'Məs: NQ-RDR2-XXXX'}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#171724] border border-[#2b2b40] text-sm sm:text-base font-mono tracking-wider text-white focus:outline-none focus:border-red-500"
                   />
                 </div>
               </div>
@@ -646,7 +646,7 @@ export default function HomePage() {
               <button
                 type="submit"
                 disabled={redeemLoading || !redeemCodeInput.trim()}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-wider bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white shadow-xl shadow-red-950 transition-all disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-wider bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white shadow-xl shadow-red-950 transition-all disabled:opacity-50 active:scale-95"
               >
                 {redeemLoading ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />

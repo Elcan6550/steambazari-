@@ -277,6 +277,21 @@ export default function AdminDashboardPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  const handleDeleteUser = async (userId: string, userName: string) => {
+    if (!confirm(`"${userName}" adlı müştərini sistemdən silmək istədiyinizdən əminsiniz?`)) return;
+    try {
+      const res = await fetch(`/api/admin/users?id=${userId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setUsers((prev) => prev.filter((u) => u.id !== userId));
+      } else {
+        alert(data.error || 'Müştərini silmək mümkün olmadı');
+      }
+    } catch (e: any) {
+      alert(e.message || 'Xəta baş verdi');
+    }
+  };
+
   const filteredUsers = users.filter((u) =>
     (u.name || '').toLowerCase().includes(userSearch.toLowerCase())
   );
@@ -312,10 +327,10 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10 pb-20">
+    <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-10 pb-20">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1f1f2e]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-[#1f1f2e]">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/60 border border-red-700/40 text-red-400 text-xs font-bold uppercase tracking-wider">
@@ -327,62 +342,62 @@ export default function AdminDashboardPage() {
               <span>Ə, İ, Ö, Ü, Ç, Ş, Ğ və bütün Latın hərfləri aktivdir (v2.2)</span>
             </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white">
+          <h1 className="text-xl sm:text-3xl font-black text-white">
             SteamBazari Guard & Redeem İdarəetməsi
           </h1>
-          <p className="text-xs text-gray-400">
+          <p className="text-[11px] sm:text-xs text-gray-400">
             GTA 5 və RDR 2 üçün Redeem kod generatoru, müştəri şifrələri və Gmail tənzimləmələri
           </p>
         </div>
 
         <button
           onClick={loadData}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#171724] hover:bg-[#202030] text-xs font-bold text-gray-300 border border-[#262638] transition-colors"
+          className="self-start sm:self-auto flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-[#171724] hover:bg-[#202030] text-xs font-bold text-gray-300 border border-[#262638] transition-colors"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Yenilə</span>
         </button>
       </div>
 
-      {/* Overview Stats (4 Cards) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
-            <Users className="w-6 h-6" />
+      {/* Overview Stats (4 Cards - 2x2 on mobile, 4 columns on desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30 flex-shrink-0">
+            <Users className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <div className="text-xs text-gray-400 font-medium">Müştərilər</div>
-            <div className="text-2xl font-black text-white">{users.length}</div>
-          </div>
-        </div>
-
-        <div className="p-5 rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30">
-            <Gift className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="text-xs text-gray-400 font-medium">Aktiv Redeem Kodlar</div>
-            <div className="text-2xl font-black text-white">{redeemStats?.unused || 0}</div>
+          <div className="min-w-0">
+            <div className="text-[10px] sm:text-xs text-gray-400 font-medium truncate">Müştərilər</div>
+            <div className="text-xl sm:text-2xl font-black text-white">{users.length}</div>
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
-            <Zap className="w-6 h-6" />
+        <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30 flex-shrink-0">
+            <Gift className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <div className="text-xs text-gray-400 font-medium">Uğurlu Kod Çıxarışı</div>
-            <div className="text-2xl font-black text-white">{stats?.successfulRequests || 0}</div>
+          <div className="min-w-0">
+            <div className="text-[10px] sm:text-xs text-gray-400 font-medium truncate">Aktiv Kodlar</div>
+            <div className="text-xl sm:text-2xl font-black text-white">{redeemStats?.unused || 0}</div>
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center border border-purple-500/30">
-            <Mail className="w-6 h-6" />
+        <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 flex-shrink-0">
+            <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <div className="text-xs text-gray-400 font-medium">Cəmi Guard Sorğuları</div>
-            <div className="text-2xl font-black text-white">{stats?.totalRequests || 0}</div>
+          <div className="min-w-0">
+            <div className="text-[10px] sm:text-xs text-gray-400 font-medium truncate">Kod Çıxarışı</div>
+            <div className="text-xl sm:text-2xl font-black text-white">{stats?.successfulRequests || 0}</div>
+          </div>
+        </div>
+
+        <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#12121c] border border-[#232336] flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center border border-purple-500/30 flex-shrink-0">
+            <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
+          </div>
+          <div className="min-w-0">
+            <div className="text-[10px] sm:text-xs text-gray-400 font-medium truncate">Cəmi Sorğu</div>
+            <div className="text-xl sm:text-2xl font-black text-white">{stats?.totalRequests || 0}</div>
           </div>
         </div>
       </div>
@@ -390,13 +405,13 @@ export default function AdminDashboardPage() {
       {/* ======================================================== */}
       {/* SECTION 1: REDEEM CODE GENERATOR (SEPARATE GTA 5 & RDR 2) */}
       {/* ======================================================== */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-black text-white flex items-center gap-2">
-              <Gift className="w-6 h-6 text-amber-400" />
-              <span>Redeem Kod Generatoru (Müştərilər üçün Aktivasiya Kodları)</span>
+            <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              <Gift className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
+              <span>Redeem Kod Generatoru</span>
             </h2>
             <p className="text-xs text-gray-400">
               GTA 5 və RDR 2 üçün müştərinin adının baş hərfləri ilə xüsusi Redeem kodları yaradın.
@@ -406,33 +421,33 @@ export default function AdminDashboardPage() {
 
         {/* Latest Generated Code Showcase */}
         {latestGeneratedCode && (
-          <div className="p-6 rounded-3xl bg-gradient-to-r from-amber-950/40 via-[#181828] to-[#12121c] border border-amber-500/50 space-y-4 shadow-2xl animate-fade-in">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#29293e]">
+          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-amber-950/40 via-[#181828] to-[#12121c] border border-amber-500/50 space-y-3.5 sm:space-y-4 shadow-2xl animate-fade-in">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 sm:pb-3 border-b border-[#29293e]">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-amber-400" />
-                <span className="text-sm font-extrabold text-white">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-extrabold text-white">
                   Yeni Redeem Kodu Yaradıldı! ({latestGeneratedCode.game === 'GTA5' ? 'GTA V' : 'RDR 2'})
                 </span>
                 {latestGeneratedCode.customerName && (
-                  <span className="text-xs text-gray-400">
-                    — Müştəri: <strong className="text-white">{latestGeneratedCode.customerName}</strong>
+                  <span className="text-xs text-gray-400 truncate">
+                    — <strong className="text-white">{latestGeneratedCode.customerName}</strong>
                   </span>
                 )}
               </div>
-              <span className="text-xs text-emerald-400 font-bold bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+              <span className="text-[10px] sm:text-xs text-emerald-400 font-bold bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30 self-start sm:self-auto">
                 Aktivdir (İstifadəyə hazırdır)
               </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="font-mono text-3xl sm:text-4xl font-black text-amber-300 tracking-wider select-all">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+              <div className="font-mono text-2xl sm:text-4xl font-black text-amber-300 tracking-wider select-all break-all sm:break-normal">
                 {latestGeneratedCode.code}
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   onClick={() => handleCopyCode(latestGeneratedCode.code, latestGeneratedCode.id)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#202034] hover:bg-[#2b2b46] text-white text-xs font-bold transition-colors border border-[#353552]"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-[#202034] hover:bg-[#2b2b46] text-white text-xs font-bold transition-colors border border-[#353552]"
                 >
                   {copiedCodeId === latestGeneratedCode.id ? (
                     <>
@@ -449,7 +464,7 @@ export default function AdminDashboardPage() {
 
                 <button
                   onClick={() => handleCopyWhatsAppMessage(latestGeneratedCode)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg shadow-emerald-950"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg shadow-emerald-950"
                 >
                   {copiedMsgId === latestGeneratedCode.id ? (
                     <>
@@ -825,7 +840,8 @@ export default function AdminDashboardPage() {
                   <th className="px-4 py-3">Şifrə</th>
                   <th className="px-4 py-3">Aktiv Oyunlar</th>
                   <th className="px-4 py-3">Rol</th>
-                  <th className="px-4 py-3 text-right">Qeydiyyat Tarixi</th>
+                  <th className="px-4 py-3">Qeydiyyat Tarixi</th>
+                  <th className="px-4 py-3 text-right">Əməliyyat</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1e1e2c]">
@@ -839,10 +855,10 @@ export default function AdminDashboardPage() {
                       <td className="px-4 py-3 text-gray-500 font-mono">
                         {idx + 1}
                       </td>
-                      <td className="px-4 py-3 font-bold text-white">
+                      <td className="px-4 py-3 font-bold text-white whitespace-nowrap">
                         {u.name}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#0d0d14] border border-[#232338]">
                           <span className="font-mono text-xs font-black text-amber-300 tracking-wider">
                             {isVisible ? displayPass : '••••••••'}
@@ -869,7 +885,7 @@ export default function AdminDashboardPage() {
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         {userUnlocked.length > 0 ? (
                           <div className="flex items-center gap-1">
                             {userUnlocked.map((g: string) => (
@@ -887,7 +903,7 @@ export default function AdminDashboardPage() {
                           <span className="text-[10px] text-gray-500 italic">Heç bir oyun aktiv deyil</span>
                         )}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 whitespace-nowrap">
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                             u.role === 'ADMIN'
@@ -898,8 +914,19 @@ export default function AdminDashboardPage() {
                           {u.role === 'ADMIN' ? 'İnzibatçı' : 'Müştəri'}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right text-gray-400 font-mono">
+                      <td className="px-4 py-3 text-gray-400 font-mono whitespace-nowrap">
                         {formatDate(u.createdAt)}
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        {u.role !== 'ADMIN' && (
+                          <button
+                            onClick={() => handleDeleteUser(u.id, u.name)}
+                            title="Müştərini sil"
+                            className="p-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-red-400 transition-colors border border-red-500/30"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
