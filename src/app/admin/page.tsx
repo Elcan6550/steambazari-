@@ -71,20 +71,37 @@ export default function AdminDashboardPage() {
   const [copiedCodeId, setCopiedCodeId] = useState<string | null>(null);
   const [copiedMsgId, setCopiedMsgId] = useState<string | null>(null);
 
+  const CYRILLIC_MAP: Record<string, string> = {
+    'А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'E','Ж':'ZH','З':'Z',
+    'И':'I','Й':'Y','К':'K','Л':'L','М':'M','Н':'N','О':'O','П':'P','Р':'R',
+    'С':'S','Т':'T','У':'U','Ф':'F','Х':'H','Ц':'TS','CH':'CH','Ш':'SH','Щ':'SH',
+    'Ъ':'','Ы':'Y','Ь':'','Э':'E','Ю':'YU','Я':'YA',
+    'а':'A','б':'B','в':'V','г':'G','д':'D','е':'E','ё':'E','ж':'ZH','з':'Z',
+    'и':'I','й':'Y','к':'K','л':'L','м':'M','н':'N','о':'O','п':'P','р':'R',
+    'с':'S','т':'T','у':'U','ф':'F','х':'H','ц':'TS','ч':'CH','ш':'SH','щ':'SH',
+    'ъ':'','ы':'Y','ь':'','э':'E','ю':'YU','я':'YA'
+  };
+
   const calculateInitials = (name: string): string => {
     if (!name.trim()) return '';
-    const clean = name
-      .trim()
-      .replace(/ə/gi, 'e')
-      .replace(/ı/gi, 'i')
-      .replace(/ö/gi, 'o')
-      .replace(/ü/gi, 'u')
-      .replace(/ğ/gi, 'g')
-      .replace(/ç/gi, 'c')
-      .replace(/ş/gi, 's')
-      .replace(/[^a-zA-Z\s]/g, '')
-      .toUpperCase();
+    let str = name.trim();
+    for (const [cyr, lat] of Object.entries(CYRILLIC_MAP)) {
+      if (str.includes(cyr)) {
+        str = str.split(cyr).join(lat);
+      }
+    }
 
+    str = str
+      .replace(/[əƏ]/g, 'Ə')
+      .replace(/[ıI]/g, 'I')
+      .replace(/[iİ]/g, 'İ')
+      .replace(/[öÖ]/g, 'Ö')
+      .replace(/[üÜ]/g, 'Ü')
+      .replace(/[çÇ]/g, 'Ç')
+      .replace(/[şŞ]/g, 'Ş')
+      .replace(/[ğĞ]/g, 'Ğ');
+
+    const clean = str.replace(/[^A-Za-zƏİIÖÜÇŞĞ\s]/g, '').toUpperCase();
     const parts = clean.split(/\s+/).filter(Boolean);
     if (parts.length >= 2) {
       return (parts[0][0] + parts[1][0]).toUpperCase();
@@ -480,16 +497,16 @@ export default function AdminDashboardPage() {
 
               <div>
                 <label className="block text-xs font-semibold text-gray-300 mb-1">
-                  Baş Hərflər (Avtomatik hesablanır, dəyişə bilərsiniz)
+                  Baş Hərflər (Bütün Latın və Azərbaycan hərfləri qəbul olunur)
                 </label>
                 <div className="flex items-center gap-3">
                   <input
                     type="text"
-                    maxLength={3}
+                    maxLength={6}
                     value={gtaInitials}
                     onChange={(e) => setGtaInitials(e.target.value.toUpperCase())}
                     placeholder="EI"
-                    className="w-24 px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs font-mono font-bold text-center text-red-400 focus:outline-none focus:border-red-500"
+                    className="w-28 px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs font-mono font-bold text-center text-red-400 focus:outline-none focus:border-red-500"
                   />
                   <span className="text-xs text-gray-500 font-mono">
                     Nümunə: <strong className="text-gray-300">{gtaInitials || 'EI'}-GTA5-XXXX</strong>
@@ -551,16 +568,16 @@ export default function AdminDashboardPage() {
 
               <div>
                 <label className="block text-xs font-semibold text-gray-300 mb-1">
-                  Baş Hərflər (Avtomatik hesablanır, dəyişə bilərsiniz)
+                  Baş Hərflər (Bütün Latın və Azərbaycan hərfləri qəbul olunur)
                 </label>
                 <div className="flex items-center gap-3">
                   <input
                     type="text"
-                    maxLength={3}
+                    maxLength={6}
                     value={rdrInitials}
                     onChange={(e) => setRdrInitials(e.target.value.toUpperCase())}
                     placeholder="NQ"
-                    className="w-24 px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs font-mono font-bold text-center text-amber-400 focus:outline-none focus:border-amber-500"
+                    className="w-28 px-3.5 py-2.5 rounded-xl bg-[#171724] border border-[#28283c] text-xs font-mono font-bold text-center text-amber-400 focus:outline-none focus:border-amber-500"
                   />
                   <span className="text-xs text-gray-500 font-mono">
                     Nümunə: <strong className="text-gray-300">{rdrInitials || 'NQ'}-RDR2-XXXX</strong>

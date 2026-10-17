@@ -4,23 +4,46 @@ import { getSessionFromRequest } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
+const CYRILLIC_MAP: Record<string, string> = {
+  'А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'E','Ж':'ZH','З':'Z',
+  'И':'I','Й':'Y','К':'K','Л':'L','М':'M','Н':'N','О':'O','П':'P','Р':'R',
+  'С':'S','Т':'T','У':'U','Ф':'F','Х':'H','Ц':'TS','Ч':'CH','Ш':'SH','Щ':'SH',
+  'Ъ':'','Ы':'Y','Ь':'','Э':'E','Ю':'YU','Я':'YA',
+  'а':'A','б':'B','в':'V','г':'G','д':'D','е':'E','ё':'E','ж':'ZH','з':'Z',
+  'и':'I','й':'Y','к':'K','л':'L','м':'M','н':'N','о':'O','п':'P','р':'R',
+  'с':'S','т':'T','у':'U','ф':'F','х':'H','ц':'TS','ч':'CH','ш':'SH','щ':'SH',
+  'ъ':'','ы':'Y','ь':'','э':'E','ю':'YU','я':'YA'
+};
+
+function transliterateCyrillic(text: string): string {
+  let res = text;
+  for (const [cyr, lat] of Object.entries(CYRILLIC_MAP)) {
+    if (res.includes(cyr)) {
+      res = res.split(cyr).join(lat);
+    }
+  }
+  return res;
+}
+
 function cleanInitials(name: string): string {
   if (!name || !name.trim()) return 'SB';
 
-  // Normalize Azerbaijani / Turkish characters
-  const normalized = name
-    .trim()
-    .replace(/ə/gi, 'e')
-    .replace(/ı/gi, 'i')
-    .replace(/ö/gi, 'o')
-    .replace(/ü/gi, 'u')
-    .replace(/ğ/gi, 'g')
-    .replace(/ç/gi, 'c')
-    .replace(/ş/gi, 's')
-    .replace(/[^a-zA-Z\s]/g, '')
-    .toUpperCase();
+  let str = transliterateCyrillic(name.trim());
 
-  const parts = normalized.split(/\s+/).filter(Boolean);
+  // Normalize casing for Latin and Azerbaijani characters
+  str = str
+    .replace(/[əƏ]/g, 'Ə')
+    .replace(/[ıI]/g, 'I')
+    .replace(/[iİ]/g, 'İ')
+    .replace(/[öÖ]/g, 'Ö')
+    .replace(/[üÜ]/g, 'Ü')
+    .replace(/[çÇ]/g, 'Ç')
+    .replace(/[şŞ]/g, 'Ş')
+    .replace(/[ğĞ]/g, 'Ğ');
+
+  // Keep Latin letters (standard + Azerbaijani Latin) and spaces
+  const cleaned = str.replace(/[^A-Za-zƏİIÖÜÇŞĞ\s]/g, '').toUpperCase();
+  const parts = cleaned.split(/\s+/).filter(Boolean);
 
   if (parts.length >= 2) {
     return (parts[0][0] + parts[1][0]).toUpperCase();
@@ -31,6 +54,26 @@ function cleanInitials(name: string): string {
   }
 
   return 'SB';
+}
+
+function cleanExplicitInitials(input: string): string {
+  if (!input || !input.trim()) return '';
+
+  let str = transliterateCyrillic(input.trim());
+
+  // Support all Latin characters (standard A-Z and Azerbaijani Latin: Ə, İ, I, Ö, Ü, Ç, Ş, Ğ, 0-9)
+  return str
+    .replace(/[əƏ]/g, 'Ə')
+    .replace(/[ıI]/g, 'I')
+    .replace(/[iİ]/g, 'İ')
+    .replace(/[öÖ]/g, 'Ö')
+    .replace(/[üÜ]/g, 'Ü')
+    .replace(/[çÇ]/g, 'Ç')
+    .replace(/[şŞ]/g, 'Ş')
+    .replace(/[ğĞ]/g, 'Ğ')
+    .replace(/[^A-Za-z0-9ƏİIÖÜÇŞĞ]/g, '')
+    .toUpperCase()
+    .slice(0, 6);
 }
 
 function generateRandomSegment(length: number = 4): string {
@@ -105,7 +148,7 @@ export async function POST(req: NextRequest) {
     if (!initials) {
       initials = cleanInitials(customerName);
     } else {
-      initials = initials.replace(/[^A-Z]/g, '').slice(0, 3) || 'SB';
+      initials = cleanExplicitInitials(initials) || cleanInitials(customerName);
     }
 
     // Generate unique code format: EI-GTA5-7K9P or NQ-RDR2-4W8M

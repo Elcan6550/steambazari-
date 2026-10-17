@@ -30,6 +30,20 @@ export async function GET(req: NextRequest) {
   }
 }
 
+function canonicalCode(str: string): string {
+  return (str || '')
+    .toUpperCase()
+    .replace(/[əƏ]/g, 'E')
+    .replace(/[ıI]/g, 'I')
+    .replace(/[iİ]/g, 'I')
+    .replace(/[öÖ]/g, 'O')
+    .replace(/[üÜ]/g, 'U')
+    .replace(/[çÇ]/g, 'C')
+    .replace(/[şŞ]/g, 'S')
+    .replace(/[ğĞ]/g, 'G')
+    .replace(/[^A-Z0-9]/g, '');
+}
+
 export async function POST(req: NextRequest) {
   try {
     const session = await getSessionFromRequest(req);
@@ -41,19 +55,36 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const rawCode = (body.code || '').trim().toUpperCase();
+    const rawCode = (body.code || '').trim();
 
-    if (!rawCode || rawCode.length < 5) {
+    if (!rawCode || rawCode.length < 4) {
       return NextResponse.json(
         { error: 'Zəhmət olmasa düzgün Redeem kodu daxil edin (Məs: EI-GTA5-XXXX)' },
         { status: 400 }
       );
     }
 
-    // Find the redeem code in database
-    const redeemRecord = await prisma.redeemCode.findUnique({
-      where: { code: rawCode },
+    // 1. First attempt: direct case-insensitive match
+    let redeemRecord = await prisma.redeemCode.findFirst({
+      where: {
+        code: {
+          equals: rawCode,
+          mode: 'insensitive',
+        },
+      },
     });
+
+    // 2. Second attempt: canonical Latin matching (tolerates Ə <-> E, İ <-> I, Ş <-> S, etc.)
+    if (!redeemRecord) {
+      const inputCanonical = canonicalCode(rawCode);
+      if (inputCanonical.length >= 6) {
+        const recentCodes = await prisma.redeemCode.findMany({
+          orderBy: { createdAt: 'desc' },
+          take: 300,
+        });
+        redeemRecord = recentCodes.find((c) => canonicalCode(c.code) === inputCanonical) || null;
+      }
+    }
 
     if (!redeemRecord) {
       return NextResponse.json(
