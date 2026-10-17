@@ -19,7 +19,6 @@ import {
   Gamepad2,
   Sparkles,
   ArrowRight,
-  Flame,
   CheckCircle2,
   ExternalLink,
   Unlock,
@@ -232,7 +231,7 @@ export default function HomePage() {
       {/* Hero Title */}
       <div className="text-center space-y-2.5 sm:space-y-3">
         <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-red-950/40 border border-red-700/40 text-red-400 text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-inner">
-          <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
+          <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
           <span>SteamBazari Rəsmi Guard & 2FA Portalı</span>
         </div>
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">

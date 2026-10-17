@@ -80,3 +80,15 @@ input:-webkit-autofill:active {
   caret-color: #ffffff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* Hide Netlify Badge and Collaborative Drawer */
+iframe[src*="netlify"],
+div[id*="netlify"],
+aside[id*="netlify"],
+netlify-drawer,
+#netlify-badge,
+[data-netlify-deploy-preview] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

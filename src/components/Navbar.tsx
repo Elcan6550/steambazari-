@@ -10,7 +10,6 @@ import {
   ShieldAlert, 
   User as UserIcon, 
   LogOut, 
-  Flame,
   Lock
 } from 'lucide-react';
 
@@ -30,14 +29,10 @@ export function Navbar() {
                 <Image
                   src="/logo.png"
                   alt="SteamBazari"
-                  width={32}
-                  height={32}
-                  className="object-contain transform group-hover:scale-110 transition-transform"
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform"
                 />
-                <Flame className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 absolute" />
               </div>
             </div>
             <div className="flex flex-col min-w-0">
