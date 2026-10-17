@@ -81,7 +81,13 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Hide Netlify Badge and Collaborative Drawer */
+/* Hide Netlify Badge, HUD and Collaborative Drawer */
+#nl-badge-frame,
+#nl-hud-frame,
+iframe#nl-badge-frame,
+iframe#nl-hud-frame,
+iframe[title*="Netlify"],
+iframe[title*="Powered by Netlify"],
 iframe[src*="netlify"],
 div[id*="netlify"],
 aside[id*="netlify"],
@@ -90,5 +96,9 @@ netlify-drawer,
 [data-netlify-deploy-preview] {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  clip-path: path("M0 0Z") !important;
 }

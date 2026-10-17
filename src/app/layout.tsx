@@ -26,6 +26,37 @@ export default function RootLayout({
 }) {
   return (
     <html lang="az" className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                localStorage.setItem('nl-hud:public:v1', 'hidden');
+                localStorage.setItem('nl-hud:owner-private:v1', 'hidden');
+              } catch (e) {}
+              (function() {
+                function purge() {
+                  ['nl-badge-frame', 'nl-hud-frame'].forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) el.remove();
+                  });
+                  document.querySelectorAll('iframe[title*="Netlify"], iframe[src*="netlify"]').forEach(function(f) {
+                    f.remove();
+                  });
+                }
+                purge();
+                if (typeof window !== 'undefined') {
+                  window.addEventListener('DOMContentLoaded', purge);
+                  window.addEventListener('load', purge);
+                  try {
+                    new MutationObserver(purge).observe(document.documentElement, { childList: true, subtree: true });
+                  } catch (e) {}
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="bg-[#08080c] text-gray-100 flex flex-col min-h-screen selection:bg-red-600 selection:text-white">
         <AuthProvider>
           <Navbar />
