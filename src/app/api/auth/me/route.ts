@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
         name: true,
         role: true,
         phone: true,
+        unlockedGames: true,
         createdAt: true,
       },
     });

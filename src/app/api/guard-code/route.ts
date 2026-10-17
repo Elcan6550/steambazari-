@@ -25,6 +25,27 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Check if customer has unlocked this game (Admin has automatic access)
+    if (session.role !== 'ADMIN') {
+      const dbUser = await prisma.user.findUnique({
+        where: { id: session.id },
+        select: { unlockedGames: true },
+      });
+      const unlocked = dbUser?.unlockedGames || [];
+      if (!unlocked.includes(game)) {
+        return NextResponse.json(
+          {
+            error: `${
+              game === 'GTA5' ? 'Grand Theft Auto V' : 'Red Dead Redemption 2'
+            } oyunu hesabınızda aktiv deyil. Zəhmət olmasa Redeem kodunu daxil edərək oyunu aktivləşdirin.`,
+            requiresRedeem: true,
+            game,
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     const account = GAME_ACCOUNTS[game];
     const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '127.0.0.1';
 

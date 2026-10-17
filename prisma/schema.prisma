@@ -18,14 +18,37 @@ model User {
   plainPassword String?        // Admin panelində görünməsi üçün
   role          String         @default("CUSTOMER") // "CUSTOMER" | "ADMIN"
   phone         String?
+  unlockedGames String[]       @default([]) // "GTA5", "RDR2"
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
   requests      GuardRequest[]
+  redeemedCodes RedeemCode[]   @relation("UserRedeems")
 
   @@index([name])
   @@index([email])
   @@index([role])
+}
+
+model RedeemCode {
+  id           String    @id @default(uuid())
+  code         String    @unique // Məs: "EI-GTA5-7F2A" və ya "NQ-RDR2-9K4B"
+  game         String    // "GTA5" | "RDR2"
+  customerName String?   // Müştərinin adı
+  initials     String?   // Müştərinin adının baş hərfləri (Məs: "EI", "NQ")
+  isUsed       Boolean   @default(false)
+  usedByUserId String?
+  usedByName   String?
+  usedAt       DateTime?
+  createdBy    String?   @default("ADMIN")
+  createdAt    DateTime  @default(now())
+
+  usedByUser   User?     @relation("UserRedeems", fields: [usedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([code])
+  @@index([game])
+  @@index([isUsed])
+  @@index([usedByUserId])
 }
 
 model GuardRequest {
@@ -66,7 +89,7 @@ model GmailConfig {
 
 model AuditLog {
   id         String   @id @default(uuid())
-  action     String   // "CODE_REQUEST", "CONFIG_UPDATE", "LOGIN", "REGISTER"
+  action     String   // "CODE_REQUEST", "CONFIG_UPDATE", "LOGIN", "REGISTER", "REDEEM_CODE"
   userId     String?
   userEmail  String?
   game       String?

@@ -9,6 +9,7 @@ export interface User {
   email?: string | null;
   role: 'CUSTOMER' | 'ADMIN';
   phone?: string;
+  unlockedGames?: string[];
 }
 
 interface AuthContextType {
