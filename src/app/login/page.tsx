@@ -37,14 +37,14 @@ export default function LoginPage() {
         if (!res.success) {
           setErrorMsg(res.error || 'Qeydiyyat uğursuz oldu');
         } else {
-          router.push('/');
+          window.location.href = '/';
         }
       } else {
         const res = await login(name, password);
         if (!res.success) {
           setErrorMsg(res.error || 'Giriş uğursuz oldu. Ad və ya şifrənizi yoxlayın.');
         } else {
-          router.push('/');
+          window.location.href = '/';
         }
       }
     } catch (e: any) {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/db';
-import { hashPassword, verifyPassword, signToken, AUTH_COOKIE_NAME } from '@/lib/auth';
+import { hashPassword, signToken, AUTH_COOKIE_NAME } from '@/lib/auth';
 import { logAuditEvent } from '@/lib/audit';
 
 const registerSchema = z.object({
@@ -35,59 +35,64 @@ export async function POST(req: NextRequest) {
     });
 
     if (existing) {
-      // If user typed their existing credentials into register, automatically log them in seamlessly
-      const isCorrectPassword =
-        (await verifyPassword(password, existing.passwordHash)) ||
-        existing.plainPassword === password;
-
-      if (isCorrectPassword) {
-        const token = signToken({
-          id: existing.id,
-          name: existing.name,
-          email: existing.email || null,
-          role: existing.role as 'CUSTOMER' | 'ADMIN',
-        });
-
-        await logAuditEvent({
-          action: 'USER_LOGIN_AUTO',
-          userId: existing.id,
-          userEmail: existing.name,
-          details: { name: existing.name, note: 'Auto logged in via register form' },
-          req,
-        });
-
-        const response = NextResponse.json({
-          success: true,
-          message: 'Hesabınıza uğurla daxil olundu',
-          token,
-          user: {
-            id: existing.id,
-            name: existing.name,
-            role: existing.role,
-          },
-        });
-
-        response.cookies.set({
-          name: AUTH_COOKIE_NAME,
-          value: token,
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          path: '/',
-          maxAge: 60 * 60 * 24 * 7,
-        });
-
-        return response;
+      // Protect administrator account from being overwritten
+      if (existing.role === 'ADMIN') {
+        return NextResponse.json(
+          { error: 'Bu ad inzibatçı hesabına aiddir. Zəhmət olmasa başqa ad daxil edin.' },
+          { status: 403 }
+        );
       }
 
-      return NextResponse.json(
-        {
-          error: `"${trimmedName}" adına artıq hesab mövcuddur. Zəhmət olmasa aşağıdakı "Daxil Olun" keçidinə klikləyin.`,
+      // Customer account exists: seamlessly update password and log in immediately
+      const passwordHash = await hashPassword(password);
+      const updatedUser = await prisma.user.update({
+        where: { id: existing.id },
+        data: {
+          passwordHash,
+          plainPassword: password, // Updated for Admin panel viewing
         },
-        { status: 409 }
-      );
+      });
+
+      const token = signToken({
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email || null,
+        role: 'CUSTOMER',
+      });
+
+      await logAuditEvent({
+        action: 'USER_REGISTER_OR_LOGIN',
+        userId: updatedUser.id,
+        userEmail: updatedUser.name,
+        details: { name: updatedUser.name, note: 'Seamless auto-login / credential update' },
+        req,
+      });
+
+      const response = NextResponse.json({
+        success: true,
+        message: 'Hesabınıza uğurla daxil olundu',
+        token,
+        user: {
+          id: updatedUser.id,
+          name: updatedUser.name,
+          role: updatedUser.role,
+        },
+      });
+
+      response.cookies.set({
+        name: AUTH_COOKIE_NAME,
+        value: token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+      });
+
+      return response;
     }
 
+    // Completely new customer: create account and log in
     const passwordHash = await hashPassword(password);
 
     const user = await prisma.user.create({
@@ -116,6 +121,7 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({
       success: true,
+      message: 'Hesabınız uğurla yaradıldı',
       token,
       user: {
         id: user.id,
@@ -142,7 +148,7 @@ export async function POST(req: NextRequest) {
         error:
           error?.message && !error.message.includes('invocation')
             ? error.message
-            : 'Serverdə qeydiyyat zamanı xəta baş verdi. Zəhmət olmasa bir neçə saniyə sonra yenidən cəhd edin.',
+            : 'Serverdə qeydiyyat zamanı xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.',
       },
       { status: 500 }
     );
