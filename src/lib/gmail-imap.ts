@@ -212,9 +212,10 @@ export async function getLatestGuardCode(gameKey: 'GTA5' | 'RDR2'): Promise<Guar
     }
   } catch (err: any) {
     const errorStr = err?.message || String(err);
-    console.warn(`[IMAP] ${email} üçün Gmail əlaqə xətası:`, errorStr);
+    const errorFull = `${errorStr} ${err?.response || ''} ${err?.responseText || ''}`;
+    console.warn(`[IMAP] ${email} üçün Gmail əlaqə xətası:`, errorFull);
 
-    const isAuthFailure = /authentication failed|invalid credentials|application-specific password/i.test(errorStr);
+    const isAuthFailure = /authentication failed|invalid credentials|application-specific password|command failed/i.test(errorFull);
 
     // Save error in database config
     await prisma.gmailConfig.upsert({
