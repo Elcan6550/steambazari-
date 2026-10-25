@@ -25,8 +25,8 @@ export const GAME_ACCOUNTS = {
   RDR2: {
     game: 'RDR2',
     gameName: 'Red Dead Redemption 2 (RDR2)',
-    email: 'steambazari.rdr2@gmail.com',
-    defaultPassword: process.env.RDR2_GMAIL_PASS || '',
+    email: 'steambazariubisoft@gmail.com',
+    defaultPassword: process.env.RDR2_GMAIL_PASS || 'upil cavr eoqt avku',
     coverImage: '/games/rdr2.avif',
   },
 };
@@ -43,14 +43,15 @@ export function extractVerificationCode(from: string, subject: string, text: str
 
   const isRockstar = /rockstar|social club/i.test(from) || /rockstar|social club/i.test(subject);
   const isSteam = /steam|valve/i.test(from) || /steam guard|steampowered/i.test(subject);
+  const isUbisoft = /ubisoft|ubi\.com/i.test(from) || /ubisoft|güvenlik kodu|verification code/i.test(subject);
 
-  // 1. Rockstar Games: ALWAYS a 6-digit verification code
-  if (isRockstar) {
+  // 1. Rockstar Games or Ubisoft: 6-digit verification code
+  if (isRockstar || isUbisoft) {
     // Check for code explicitly mentioned after "verification screen" or "verification code"
-    const explicitRockstar = text.match(/(?:verification screen|verification code|təsdiq kodu|kod)[:\s\n\r\t]+([0-9]{6})\b/i);
-    if (explicitRockstar) return explicitRockstar[1];
+    const explicitCode = text.match(/(?:verification screen|verification code|güvenlik kodu|təsdiq kodu|kod)[:\s\n\r\t]+([0-9]{6})\b/i);
+    if (explicitCode) return explicitCode[1];
 
-    // Check top of text (Rockstar puts code at the very start of plain text)
+    // Check top of text
     const topMatch = text.trim().match(/^([0-9]{6})\b/);
     if (topMatch) return topMatch[1];
 
@@ -160,10 +161,10 @@ export async function getLatestGuardCode(gameKey: 'GTA5' | 'RDR2'): Promise<Guar
         const body = (parsed.text || '') + ' ' + (parsed.html || '');
         const date = parsed.date || new Date();
 
-        // Check if message is from Steam, Rockstar, or Social Club or contains verification keywords
+        // Check if message is from Steam, Rockstar, Social Club, or Ubisoft or contains verification keywords
         const isSteamOrRockstar =
-          /rockstar|social club|steam|valve/i.test(from) ||
-          /guard|verification|təsdiq|code|kod|login/i.test(subject);
+          /rockstar|social club|steam|valve|ubisoft|ubi/i.test(from) ||
+          /guard|verification|təsdiq|code|kod|login|güvenlik/i.test(subject);
 
         if (isSteamOrRockstar) {
           const foundCode = extractVerificationCode(from, subject, parsed.text || '', parsed.html || '');
