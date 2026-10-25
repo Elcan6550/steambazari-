@@ -976,12 +976,12 @@ export default function AdminDashboardPage() {
               onChange={(e) => {
                 const g = e.target.value as 'GTA5' | 'RDR2';
                 setSelectedGame(g);
-                setInputEmail(g === 'GTA5' ? 'isayevelcan5@gmail.com' : 'steambazari.rdr2@gmail.com');
+                setInputEmail(g === 'GTA5' ? 'isayevelcan5@gmail.com' : 'steambazariubisoft@gmail.com');
               }}
               className="w-full px-3.5 py-2.5 rounded-xl bg-[#171722] border border-[#28283c] text-xs font-bold text-white focus:outline-none focus:border-red-500"
             >
               <option value="GTA5">GTA V (isayevelcan5@gmail.com)</option>
-              <option value="RDR2">RDR 2 (steambazari.rdr2@gmail.com)</option>
+              <option value="RDR2">RDR 2 (steambazariubisoft@gmail.com)</option>
             </select>
           </div>
 

@@ -46,7 +46,7 @@ const GAMES: GameOption[] = [
     id: 'RDR2',
     title: 'Red Dead Redemption 2',
     subtitle: 'RDR 2 / Red Dead Online Guard Kodu',
-    email: 'steambazari.rdr2@gmail.com',
+    email: 'steambazariubisoft@gmail.com',
     coverImage: '/games/rdr2.avif',
   },
 ];

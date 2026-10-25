@@ -26,8 +26,8 @@ if (!process.env.GTA5_GMAIL_USER) {
   process.env.GTA5_GMAIL_PASS = 'ghno vozk fxnt xrbo';
 }
 if (!process.env.RDR2_GMAIL_USER) {
-  process.env.RDR2_GMAIL_USER = 'steambazari.rdr2@gmail.com';
-  process.env.RDR2_GMAIL_PASS = 'rfvy ifmx pjnn sfxf';
+  process.env.RDR2_GMAIL_USER = 'steambazariubisoft@gmail.com';
+  process.env.RDR2_GMAIL_PASS = 'upil cavr eoqt avku';
 }
 if (!process.env.ADMIN_DEFAULT_EMAIL) {
   process.env.ADMIN_DEFAULT_EMAIL = 'admin@steambazari.az';
